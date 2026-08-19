@@ -7,6 +7,9 @@ export const getBarberos = () => axiosClient.get('/barberos').then(res => res.da
 export const getHorariosBarbero = (barberoId) =>
   axiosClient.get(`/horarios/barbero/${barberoId}`).then(res => res.data);
 
+export const getMiAgenda = () =>
+  axiosClient.get('/citas/agenda').then(res => res.data);
+
 export const crearCita = (barberoId, servicioId, fechaHora) =>
   axiosClient.post('/citas', { barberoId, servicioId, fechaHora }).then(res => res.data);
 
@@ -15,3 +18,6 @@ export const getMisCitas = () =>
 
 export const cancelarCita = (citaId) =>
   axiosClient.patch(`/citas/${citaId}/cancelar`).then(res => res.data);
+
+export const completarCita = (citaId) =>
+  axiosClient.patch(`/citas/${citaId}/completar`).then(res => res.data);
