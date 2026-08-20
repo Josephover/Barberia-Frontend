@@ -10,14 +10,26 @@ export const getHorariosBarbero = (barberoId) =>
 export const getMiAgenda = () =>
   axiosClient.get('/citas/agenda').then(res => res.data);
 
-export const crearCita = (barberoId, servicioId, fechaHora) =>
-  axiosClient.post('/citas', { barberoId, servicioId, fechaHora }).then(res => res.data);
-
 export const getMisCitas = () =>
   axiosClient.get('/citas/mias').then(res => res.data);
 
-export const cancelarCita = (citaId) =>
-  axiosClient.patch(`/citas/${citaId}/cancelar`).then(res => res.data);
+export const crearCita = (barberoId, servicioId, fechaHora) =>
+  axiosClient.post('/citas', { barberoId, servicioId, fechaHora }).then(res => res.data);
+
+export const crearServicio = (servicio) =>
+  axiosClient.post('/servicios', servicio).then(res => res.data);
+
+export const crearBarbero = (usuarioId, datos) =>
+  axiosClient.post(`/barberos/${usuarioId}`, datos).then(res => res.data);
+
+export const crearHorario = (barberoId, horario) =>
+  axiosClient.post(`/horarios/barbero/${barberoId}`, horario).then(res => res.data);
+
+export const registrarUsuario = (datos) =>
+  axiosClient.post('/auth/register', datos).then(res => res.data);
 
 export const completarCita = (citaId) =>
   axiosClient.patch(`/citas/${citaId}/completar`).then(res => res.data);
+
+export const cancelarCita = (citaId) =>
+  axiosClient.patch(`/citas/${citaId}/cancelar`).then(res => res.data);

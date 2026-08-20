@@ -5,8 +5,8 @@ import MisCitas from './page/cliente/MisCitas';
 import MiAgenda from './page/barbero/MiAgenda';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './auth/ProtectedRoute';
+import Dashboard from './page/admin/Dashboard';
 
-function AdminPlaceholder() { return <h1>Dashboard Admin</h1>; }
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
 
         <Route path="/admin" element={
           <ProtectedRoute allowedRoles={['ADMIN']}>
-            <AdminPlaceholder />
+            <Dashboard />
           </ProtectedRoute>
         } />
 
@@ -37,6 +37,11 @@ function App() {
           <ProtectedRoute allowedRoles={['CLIENTE']}>
             <MisCitas />
           </ProtectedRoute>
+        } />
+        <Route path="/admin" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}>
+        <Dashboard />
+        </ProtectedRoute>
         } />
       </Routes>
     </>
