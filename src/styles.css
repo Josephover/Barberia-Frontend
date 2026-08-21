@@ -1,0 +1,355 @@
+/* ==========================================================================
+   Barbería — Design Tokens
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap');
+
+:root {
+  /* Color */
+  --bg: #17171A;
+  --surface: #201F22;
+  --surface-alt: #2A2926;
+  --border: #39373A;
+  --text: #EDE7DA;
+  --text-muted: #A39C8C;
+
+  --gold: #C89B3C;
+  --gold-soft: rgba(200, 155, 60, 0.14);
+  --green: #3A5941;
+  --green-soft: rgba(58, 89, 65, 0.18);
+  --red: #8C3A3A;
+  --red-soft: rgba(140, 58, 58, 0.16);
+  --steel: #4C6B8A;
+  --steel-soft: rgba(76, 107, 138, 0.16);
+
+  /* Type */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Work Sans', -apple-system, sans-serif;
+
+  /* Layout */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  color: var(--text);
+}
+
+h2 { font-size: 28px; letter-spacing: -0.01em; }
+h3 { font-size: 19px; font-weight: 600; }
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* ==========================================================================
+   Signature element — barber-stripe divider
+   ========================================================================== */
+
+.stripe-divider {
+  height: 3px;
+  width: 56px;
+  margin: 10px 0 28px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--gold) 0 6px,
+    var(--green) 6px 12px,
+    var(--red) 12px 18px
+  );
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.page-container {
+  max-width: 640px;
+  margin: 48px auto;
+  padding: 0 20px;
+}
+
+.section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.section-card + .section-card {
+  margin-top: 0;
+}
+
+/* ==========================================================================
+   Navbar
+   ========================================================================== */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-brand {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.navbar-links a {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.navbar-links a:hover {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
+}
+
+input, select {
+  width: 100%;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  transition: border-color 0.15s ease;
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+select {
+  cursor: pointer;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-row {
+  display: flex;
+  gap: 12px;
+}
+.field-row > * { flex: 1; }
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+button, .btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 11px 20px;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.15s ease;
+}
+
+button:active { transform: scale(0.98); }
+
+button[type="submit"], .btn-primary {
+  background: var(--gold);
+  color: #1A1608;
+  align-self: flex-start;
+}
+button[type="submit"]:hover, .btn-primary:hover { opacity: 0.88; }
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+.btn-danger {
+  background: transparent;
+  border: 1px solid var(--red);
+  color: #E0A8A8;
+}
+.btn-danger:hover { background: var(--red-soft); }
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 7px 14px;
+}
+.btn-logout:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ==========================================================================
+   Cita cards (Mis Citas / Mi Agenda)
+   ========================================================================== */
+
+.cita-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+
+.cita-card-info strong {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cita-card-meta {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.empty-state {
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 24px 0;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Status badges
+   ========================================================================== */
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-top: 8px;
+}
+
+.badge-pendiente { background: var(--gold-soft); color: var(--gold); }
+.badge-confirmada { background: var(--steel-soft); color: #86A6C4; }
+.badge-completada { background: var(--green-soft); color: #7FAE88; }
+.badge-cancelada { background: var(--red-soft); color: #D08B8B; }
+
+/* ==========================================================================
+   Feedback messages
+   ========================================================================== */
+
+.msg-error {
+  color: #D08B8B;
+  background: var(--red-soft);
+  border: 1px solid rgba(140, 58, 58, 0.4);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+.msg-success {
+  color: #7FAE88;
+  background: var(--green-soft);
+  border: 1px solid rgba(58, 89, 65, 0.4);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   Login
+   ========================================================================== */
+
+.auth-container {
+  max-width: 380px;
+  margin: 96px auto;
+  padding: 0 20px;
+}
+
+.auth-container .section-card {
+  margin-bottom: 0;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--text-muted);
+}

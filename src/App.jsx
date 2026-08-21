@@ -6,6 +6,7 @@ import MiAgenda from './page/barbero/MiAgenda';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './auth/ProtectedRoute';
 import Dashboard from './page/admin/Dashboard';
+import Registro from './page/Registro';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
 
         <Route path="/admin" element={
           <ProtectedRoute allowedRoles={['ADMIN']}>

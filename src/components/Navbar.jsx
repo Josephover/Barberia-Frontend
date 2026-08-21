@@ -13,36 +13,26 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: '12px 24px',
-      borderBottom: '1px solid #ddd',
-    }}>
-      <div style={{ display: 'flex', gap: 16 }}>
-        <strong>💈 Barbería</strong>
+  <nav className="navbar">
+    <div className="navbar-links">
+      <span className="navbar-brand">💈 Barbería</span>
 
-        {user.rol === 'CLIENTE' && (
-          <>
-            <Link to="/cliente/reservar">Reservar</Link>
-            <Link to="/cliente/mis-citas">Mis Citas</Link>
-          </>
-        )}
+      {user.rol === 'CLIENTE' && (
+        <>
+          <Link to="/cliente/reservar">Reservar</Link>
+          <Link to="/cliente/mis-citas">Mis Citas</Link>
+        </>
+      )}
 
-        {user.rol === 'BARBERO' && (
-          <Link to="/barbero/agenda">Mi Agenda</Link>
-        )}
+      {user.rol === 'BARBERO' && <Link to="/barbero/agenda">Mi Agenda</Link>}
 
-        {user.rol === 'ADMIN' && (
-          <Link to="/admin">Dashboard</Link>
-        )}
-      </div>
+      {user.rol === 'ADMIN' && <Link to="/admin">Dashboard</Link>}
+    </div>
 
-      <div>
-        <span style={{ marginRight: 12 }}>{user.nombre} ({user.rol})</span>
-        <button onClick={handleLogout}>Cerrar sesión</button>
-      </div>
-    </nav>
-  );
+    <div className="navbar-user">
+      <span>{user.nombre} · {user.rol}</span>
+      <button className="btn-logout" onClick={handleLogout}>Cerrar sesión</button>
+    </div>
+  </nav>
+);
 }
