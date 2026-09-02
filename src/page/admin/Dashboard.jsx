@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { crearServicio, registrarUsuario, crearBarbero, getBarberos, crearHorario } from '../../api/citasApi';
-
+import toast from 'react-hot-toast';
 export default function Dashboard() {
   // --- Formulario de Servicio ---
   const [nombreServicio, setNombreServicio] = useState('');
@@ -8,22 +8,21 @@ export default function Dashboard() {
   const [precio, setPrecio] = useState('');
   const [msgServicio, setMsgServicio] = useState('');
 
-  const handleCrearServicio = async (e) => {
-    e.preventDefault();
-    setMsgServicio('');
-    try {
-      await crearServicio({
-        nombre: nombreServicio,
-        duracionMinutos: Number(duracion),
-        precio: Number(precio),
-        activo: true,
-      });
-      setMsgServicio('✅ Servicio creado');
-      setNombreServicio(''); setDuracion(''); setPrecio('');
-    } catch (err) {
-      setMsgServicio('❌ ' + (err.response?.data?.error || 'Error al crear servicio'));
-    }
-  };
+const handleCrearServicio = async (e) => {
+  e.preventDefault();
+  try {
+    await crearServicio({
+      nombre: nombreServicio,
+      duracionMinutos: Number(duracion),
+      precio: Number(precio),
+      activo: true,
+    });
+    toast.success('Servicio creado correctamente');
+    setNombreServicio(''); setDuracion(''); setPrecio('');
+  } catch (err) {
+    toast.error(err.response?.data?.error || 'Error al crear servicio');
+  }
+};
 
   // --- Formulario de Barbero (registro + conversión en un solo paso) ---
   const [nombreBarbero, setNombreBarbero] = useState('');
@@ -34,7 +33,6 @@ export default function Dashboard() {
 
 const handleCrearBarbero = async (e) => {
   e.preventDefault();
-  setMsgBarbero('');
   try {
     const usuarioCreado = await registrarUsuario({
       nombre: nombreBarbero,
@@ -43,13 +41,12 @@ const handleCrearBarbero = async (e) => {
       telefono: '0000000000',
       rol: 'BARBERO',
     });
-
     await crearBarbero(usuarioCreado.id, { especialidad });
-
-    setMsgBarbero('✅ Barbero registrado y vinculado correctamente');
+    toast.success('Barbero registrado y vinculado correctamente');
     setNombreBarbero(''); setEmailBarbero(''); setPasswordBarbero(''); setEspecialidad('');
+    setMsgBarbero(Date.now()); // truco para disparar el useEffect que refresca el <select>
   } catch (err) {
-    setMsgBarbero('❌ ' + (err.response?.data?.error || 'Error al crear barbero'));
+    toast.error(err.response?.data?.error || 'Error al crear barbero');
   }
 };
 // --- Formulario de Horario ---
@@ -66,16 +63,15 @@ useEffect(() => {
 
 const handleCrearHorario = async (e) => {
   e.preventDefault();
-  setMsgHorario('');
   try {
     await crearHorario(Number(barberoSeleccionado), {
       diaSemana,
       horaInicio: `${horaInicio}:00`,
       horaFin: `${horaFin}:00`,
     });
-    setMsgHorario('✅ Horario asignado correctamente');
+    toast.success('Horario asignado correctamente');
   } catch (err) {
-    setMsgHorario('❌ ' + (err.response?.data?.error || 'Error al crear horario'));
+    toast.error(err.response?.data?.error || 'Error al crear horario');
   }
 };
 

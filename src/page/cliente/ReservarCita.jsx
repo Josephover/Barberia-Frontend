@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getServicios, getBarberos, crearCita } from '../../api/citasApi';
-
+import toast from 'react-hot-toast';
 export default function ReservarCita() {
   const [servicios, setServicios] = useState([]);
   const [barberos, setBarberos] = useState([]);
@@ -25,10 +25,10 @@ export default function ReservarCita() {
 
     try {
       await crearCita(Number(barberoId), Number(servicioId), fechaHora);
-      setMensaje('¡Cita reservada con éxito!');
+      toast.success('¡Cita reservada con éxito!');
     } catch (err) {
       const msg = err.response?.data?.error || 'No se pudo reservar la cita';
-      setError(msg);
+      toast.error(msg);
     }
   };
 

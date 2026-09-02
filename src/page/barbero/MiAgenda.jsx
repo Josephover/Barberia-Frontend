@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { getMiAgenda, completarCita } from '../../api/citasApi';
+import toast from 'react-hot-toast';
 
 export default function MiAgenda() {
   const [citas, setCitas] = useState([]);
   const [error, setError] = useState('');
 
   const cargarAgenda = () => {
-    getMiAgenda().then(setCitas).catch(() => setError('No se pudo cargar la agenda'));
+    getMiAgenda().then(setCitas).catch(() => toast.error('No se pudo cargar la agenda'));
   };
 
   useEffect(() => {
@@ -14,12 +15,12 @@ export default function MiAgenda() {
   }, []);
 
   const handleCompletar = async (id) => {
-    setError('');
     try {
       await completarCita(id);
+      toast.success('Cita marcada como completada');
       cargarAgenda();
     } catch (err) {
-      setError(err.response?.data?.error || 'No se pudo completar la cita');
+      toast.error(err.response?.data?.error || 'No se pudo completar la cita');
     }
   };
 

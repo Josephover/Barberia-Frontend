@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getMisCitas, cancelarCita } from '../../api/citasApi';
-
+import toast from 'react-hot-toast';
 export default function MisCitas() {
   const [citas, setCitas] = useState([]);
   const [error, setError] = useState('');
 
   const cargarCitas = () => {
-    getMisCitas().then(setCitas).catch(() => setError('No se pudieron cargar las citas'));
+    getMisCitas().then(setCitas).catch(() => toast.error('No se pudieron cargar las citas'));
   };
 
   useEffect(() => {
@@ -14,12 +14,12 @@ export default function MisCitas() {
   }, []);
 
   const handleCancelar = async (id) => {
-    setError('');
     try {
       await cancelarCita(id);
+      toast.success('Cita cancelada');
       cargarCitas(); // recarga la lista para reflejar el nuevo estado
     } catch (err) {
-      setError(err.response?.data?.error || 'No se pudo cancelar la cita');
+      toast.error(err.response?.data?.error || 'No se pudo cancelar la cita');
     }
   };
 
