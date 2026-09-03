@@ -16,6 +16,12 @@ export const getMisCitas = () =>
 export const crearCita = (barberoId, servicioId, fechaHora) =>
   axiosClient.post('/citas', { barberoId, servicioId, fechaHora }).then(res => res.data);
 
+export const crearCitaAuto = (servicioId, fechaHora) =>
+  axiosClient.post('/citas/auto', { servicioId, fechaHora }).then(res => res.data);
+
+export const getBarberoDisponible = (servicioId, fechaHora) =>
+  axiosClient.get('/citas/disponible', { params: { servicioId, fechaHora } }).then(res => res.data);
+
 export const crearServicio = (servicio) =>
   axiosClient.post('/servicios', servicio).then(res => res.data);
 

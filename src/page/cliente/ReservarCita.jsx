@@ -1,78 +1,114 @@
 import { useState, useEffect } from 'react';
-import { getServicios, getBarberos, crearCita } from '../../api/citasApi';
 import toast from 'react-hot-toast';
+import { getServicios, crearCitaAuto, getBarberoDisponible } from '../../api/citasApi';
+
 export default function ReservarCita() {
   const [servicios, setServicios] = useState([]);
-  const [barberos, setBarberos] = useState([]);
   const [servicioId, setServicioId] = useState('');
-  const [barberoId, setBarberoId] = useState('');
   const [fecha, setFecha] = useState('');
   const [hora, setHora] = useState('');
-  const [mensaje, setMensaje] = useState('');
-  const [error, setError] = useState('');
+
+  const [barberoAsignado, setBarberoAsignado] = useState(null);
+  const [buscandoBarbero, setBuscandoBarbero] = useState(false);
+  const [sinDisponibilidad, setSinDisponibilidad] = useState(false);
 
   useEffect(() => {
     getServicios().then(setServicios);
-    getBarberos().then(setBarberos);
   }, []);
+
+  // Cada vez que cambian servicio, fecha u hora, buscamos el barbero disponible
+  useEffect(() => {
+    setBarberoAsignado(null);
+    setSinDisponibilidad(false);
+
+    if (!servicioId || !fecha || !hora) return;
+
+    const fechaHora = `${fecha}T${hora}:00`;
+    setBuscandoBarbero(true);
+
+    // pequeño debounce para no disparar la llamada en cada tecla
+    const timeoutId = setTimeout(() => {
+      getBarberoDisponible(servicioId, fechaHora)
+        .then((barbero) => {
+          setBarberoAsignado(barbero);
+          setSinDisponibilidad(false);
+        })
+        .catch(() => {
+          setBarberoAsignado(null);
+          setSinDisponibilidad(true);
+        })
+        .finally(() => setBuscandoBarbero(false));
+    }, 400);
+
+    return () => clearTimeout(timeoutId);
+  }, [servicioId, fecha, hora]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setMensaje('');
 
     const fechaHora = `${fecha}T${hora}:00`;
 
     try {
-      await crearCita(Number(barberoId), Number(servicioId), fechaHora);
+      await crearCitaAuto(Number(servicioId), fechaHora);
       toast.success('¡Cita reservada con éxito!');
+      setServicioId(''); setFecha(''); setHora('');
+      setBarberoAsignado(null);
     } catch (err) {
       const msg = err.response?.data?.error || 'No se pudo reservar la cita';
       toast.error(msg);
     }
   };
 
+  const textoSelectorBarbero = () => {
+    if (buscandoBarbero) return 'Buscando barbero disponible...';
+    if (sinDisponibilidad) return 'Sin disponibilidad en ese horario';
+    if (barberoAsignado) return barberoAsignado.nombre;
+    return 'Elige servicio, fecha y hora primero';
+  };
+
   return (
-    <div style={{ maxWidth: 500, margin: '40px auto' }}>
+    <div className="page-container">
       <h2>Reservar cita</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Servicio</label>
-          <select value={servicioId} onChange={(e) => setServicioId(e.target.value)} required>
-            <option value="">Selecciona un servicio</option>
-            {servicios.map(s => (
-              <option key={s.id} value={s.id}>
-                {s.nombre} — {s.duracionMinutos} min — ${s.precio}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className="stripe-divider" />
 
-        <div>
-          <label>Barbero</label>
-          <select value={barberoId} onChange={(e) => setBarberoId(e.target.value)} required>
-            <option value="">Selecciona un barbero</option>
-            {barberos.map(b => (
-              <option key={b.id} value={b.id}>{b.usuario.nombre}</option>
-            ))}
-          </select>
-        </div>
+      <div className="section-card">
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label>Servicio</label>
+            <select value={servicioId} onChange={(e) => setServicioId(e.target.value)} required>
+              <option value="">Selecciona un servicio</option>
+              {servicios.map(s => (
+                <option key={s.id} value={s.id}>
+                  {s.nombre} — {s.duracionMinutos} min — ${s.precio}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <label>Fecha</label>
-          <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} required />
-        </div>
+          <div className="field-row">
+            <div className="field">
+              <label>Fecha</label>
+              <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} required />
+            </div>
 
-        <div>
-          <label>Hora</label>
-          <input type="time" value={hora} onChange={(e) => setHora(e.target.value)} required />
-        </div>
+            <div className="field">
+              <label>Hora</label>
+              <input type="time" value={hora} onChange={(e) => setHora(e.target.value)} required />
+            </div>
+          </div>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {mensaje && <p style={{ color: 'green' }}>{mensaje}</p>}
+          <div className="field">
+            <label>Barbero asignado</label>
+            <select disabled value="placeholder">
+              <option value="placeholder">{textoSelectorBarbero()}</option>
+            </select>
+          </div>
 
-        <button type="submit">Reservar</button>
-      </form>
+          <button type="submit" disabled={!barberoAsignado || buscandoBarbero}>
+            Reservar
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
