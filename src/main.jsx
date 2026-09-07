@@ -6,6 +6,8 @@ import { AuthProvider } from './auth/AuthContext.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import './styles.css'
 import { Toaster } from 'react-hot-toast';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import './styles.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -92,7 +92,7 @@ Esto construye y levanta 3 contenedores: PostgreSQL, el backend de Spring Boot, 
 ## 🗺️ Roadmap
 
 - [x] Auto-asignación de barbero con vista previa en tiempo real
-- [ ] Calendario visual (react-big-calendar) en vez de inputs de fecha/hora
+- [x] Calendario visual (react-big-calendar) en vez de inputs de fecha/hora
 - [ ] Deploy en producción (Vercel)
 
 ## 👤 Autor

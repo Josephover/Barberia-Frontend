@@ -353,3 +353,133 @@ button[type="submit"]:hover, .btn-primary:hover { opacity: 0.88; }
   font-size: 14px;
   color: var(--text-muted);
 }
+/* ==========================================================================
+   react-big-calendar — tema oscuro (bloque único y consolidado)
+   ========================================================================== */
+
+.rbc-calendar {
+  background: var(--surface) !important;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-family: var(--font-body);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* Toolbar (Hoy / flechas / Semana-Día) */
+.rbc-toolbar {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+  background: var(--surface);
+}
+
+.rbc-toolbar-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text) !important;
+}
+
+.rbc-toolbar button {
+  background: transparent !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-muted) !important;
+  padding: 6px 14px !important;
+  font-size: 13px !important;
+  box-shadow: none !important;
+}
+
+.rbc-toolbar button:hover {
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+  background: transparent !important;
+}
+
+.rbc-toolbar button.rbc-active,
+.rbc-toolbar button.rbc-active:hover {
+  background: var(--gold-soft) !important;
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+}
+
+/* Encabezados de día (07 lun, 08 mar...) */
+.rbc-header {
+  background: var(--surface-alt) !important;
+  border-color: var(--border) !important;
+  padding: 10px 4px;
+}
+
+.rbc-header, .rbc-header * {
+  color: var(--text) !important;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.rbc-button-link {
+  all: unset;
+  display: block;
+  width: 100%;
+  cursor: default;
+  color: var(--text) !important;
+}
+
+/* Fondo general de la grilla */
+.rbc-time-view, .rbc-time-header, .rbc-time-content,
+.rbc-time-header-content, .rbc-time-gutter {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+.rbc-day-bg {
+  background: transparent !important;
+  border-color: var(--border) !important;
+}
+
+.rbc-day-bg + .rbc-day-bg {
+  border-left: 1px solid var(--border) !important;
+}
+
+/* Líneas de hora — una sola por franja de 30 min, sutiles */
+.rbc-timeslot-group {
+  border-bottom: 1px solid var(--border) !important;
+  min-height: 44px;
+}
+
+.rbc-time-slot {
+  color: var(--text-muted) !important;
+  font-size: 11px;
+}
+
+.rbc-time-gutter .rbc-timeslot-group {
+  border-bottom: none !important;
+}
+
+/* Columna de "hoy" */
+.rbc-day-bg.rbc-today,
+.rbc-day-slot.rbc-today {
+  background: var(--gold-soft) !important;
+}
+
+.rbc-current-time-indicator {
+  background-color: var(--gold) !important;
+  height: 2px;
+}
+
+/* Bloque seleccionado / horario elegido */
+.rbc-event {
+  background: var(--gold) !important;
+  border: none !important;
+  color: #1A1608 !important;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.rbc-slot-selection {
+  background: var(--gold-soft) !important;
+  border: 1px solid var(--gold) !important;
+}
+
+.rbc-off-range-bg {
+  background: rgba(0, 0, 0, 0.25) !important;
+}
